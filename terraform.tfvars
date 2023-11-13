@@ -1,2 +1,2 @@
-do_token = "dop_v1_45e4565abde244771f661b6cc89676cdfe358e8a0d3401800b28669ed433fb0d"
+do_token = "dop_v1_e7f2e23b94a904972342b41541ed1052d11b133959b4ae83e221d58568b71fc3"
 pvt_key  = "C:\\Users\\STW\\Documents\\DigitalKeyPrivate"
