@@ -1,32 +1,45 @@
 pipeline {
     agent any
-    options {
-        skipDefaultCheckout(true)
-    }
+    
 
     stages {
-        stage('clean workspace') {
+        stage('Checkout Code') {
             steps {
-                cleanWs()
+                checkout scm
             }
         }
-    
-        stage('Checkout') {
+        stage('Terraform Init') {
             steps {
-                git branch: 'main', credentialsId: 'Maxibanex', url: 'https://github.com/Maxibanex/Practica_Jenkins.git'
+                script {
+                    sh 'terraform init'
+                }
             }
         }
-        stage('TF Init&Plan') {
-        steps {
-          sh './terraformw terraform init'
-          sh './terraformw terraform plan'
-            }      
-        }
-
-        stage('terraform Apply') {
+        stage('Terraform Plan') {
             steps {
-                sh './terraformw apply --auto-approve'
+                script {
+                    sh 'terraform plan -out=tfplan'
+                }
             }
+        }
+        stage('Terraform Apply') {
+            steps {
+                script {
+                    sh 'terraform apply -auto-approve tfplan'
+                }
+            }
+        }
+        stage('Upload State to S3') {
+            steps {
+                script {
+                    sh 'aws s3 cp terraform.tfstate s3://your-bucket-name'
+                }
+            }
+        }
+    }
+    post {
+        always {
+            cleanWs()
         }
     }
 }
