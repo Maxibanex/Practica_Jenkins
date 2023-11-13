@@ -1,6 +1,5 @@
 pipeline {
-    agent
-        any
+    agent any
 
     stages {
         stage('Checkout') {
@@ -9,9 +8,9 @@ pipeline {
             }
         }
         stage('TF Init&Plan') {
-            steps {
-            sh 'terraform init'
-            sh 'terraform plan'
+        steps {
+          sh 'terraform init'
+          sh 'terraform plan'
             }      
         }
 
@@ -28,5 +27,5 @@ pipeline {
             sh 'terraform apply -input=false'
             }
         }
-    } 
-  }
+    }
+}
