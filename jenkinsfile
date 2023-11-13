@@ -8,8 +8,13 @@ pipeline {
         stage('clean workspace') {
             steps {
                 cleanWs()
+
+                script {
+                    sh 'chmod +x terraformw'
+                }
             }
         }
+        
         stage('First checkout') {
             steps {
                 checkout scm
