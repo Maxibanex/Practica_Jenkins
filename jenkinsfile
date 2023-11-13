@@ -1,81 +1,22 @@
 pipeline {
     agent any
 
-    environment {
-        TF_VAR_do_token = credentials('dop_v1_8dde1c18a5584fa55959494c3ec2c410fabcecc5827d072c3c7b35c0f2ffb9e1')
-        TF_VAR_pvt_key = credentials('C:\\Users\\STW\\Documents\\privateDigitalKey.ppk')
-    }
-
     stages {
         stage('Checkout') {
             steps {
-                script {
-                    // Checkout the code from the GitHub repository
-                    checkout scm
-                }
+                git branch: 'main', credentialsId: 'Maxibanex', url: 'https://github.com/Maxibanex/Practica_Jenkins.git'
             }
         }
-
-        stage('Terraform Init') {
+        stage('Terraform init') {
             steps {
-                script {
-                    // Initialize Terraform
-                    sh 'terraform init'
-                }
+                sh 'terraform init'
             }
         }
-
-        stage('Terraform Validate') {
+        stage('Terraform apply') {
             steps {
-                script {
-                    // Validate Terraform configuration
-                    sh 'terraform validate'
-                }
+                sh 'terraform apply --auto-approve'
             }
         }
-
-        stage('Terraform Plan') {
-            steps {
-                script {
-                    // Generate Terraform plan
-                    sh 'terraform plan -out=tfplan'
-                }
-            }
-        }
-
-        stage('Terraform Apply') {
-            steps {
-                script {
-                    // Apply Terraform changes
-                    sh 'terraform apply --auto-approve tfplan'
-                }
-            }
-        }
-
-        stage('Terraform Show') {
-            steps {
-                script {
-                    // Show Terraform output
-                    sh 'terraform show'
-                }
-            }
-        }
-
-        stage('Terraform Destroy') {
-            steps {
-                script {
-                    // Destroy Terraform resources
-                    sh 'terraform destroy --auto-approve'
-                }
-            }
-        }
-    }
-
-    post {
-        always {
-            script {
-                // Cleanup or additional steps after the pipeline
-            }
-        }
+        
     }
 }
