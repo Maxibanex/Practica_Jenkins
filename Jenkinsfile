@@ -11,21 +11,21 @@ pipeline {
         stage('Terraform Init') {
             steps {
                 script {
-                    sh 'export PATH=$PATH:/usr/bin && terraform init'
+                    sh '/usr/bin/terraform init'
                 }
             }
         }
         stage('Terraform Plan') {
             steps {
                 script {
-                    sh 'export PATH=$PATH:/usr/bin && terraform plan -out=tfplan'
+                    sh '/usr/bin/terraform plan -out=tfplan'
                 }
             }
         }
         stage('Terraform Apply') {
             steps {
                 script {
-                    sh 'export PATH=$PATH:/usr/bin && terraform apply -auto-approve tfplan'
+                    sh '/usr/bin/terraform apply -auto-approve tfplan'
                 }
             }
         }
