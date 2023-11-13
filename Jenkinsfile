@@ -11,21 +11,21 @@ pipeline {
         stage('Terraform Init') {
             steps {
                 script {
-                    sh '/usr/bin/terraform terraform init'
+                    sh 'terraform init'
                 }
             }
         }
         stage('Terraform Plan') {
             steps {
                 script {
-                    sh '/usr/bin/terraform terraform plan -out=tfplan'
+                    sh 'terraform plan -out=tfplan'
                 }
             }
         }
         stage('Terraform Apply') {
             steps {
                 script {
-                    sh '/usr/bin/terraform terraform apply -auto-approve tfplan'
+                    sh 'terraform apply -auto-approve tfplan'
                 }
             }
         }
