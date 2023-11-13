@@ -2,6 +2,12 @@ pipeline {
     agent any
 
     stages {
+        stage('clean workspace') {
+            steps {
+                cleanWs()
+            }
+        }
+    
         stage('Checkout') {
             steps {
                 git branch: 'main', credentialsId: 'Maxibanex', url: 'https://github.com/Maxibanex/Practica_Jenkins.git'
@@ -9,23 +15,18 @@ pipeline {
         }
         stage('TF Init&Plan') {
         steps {
-          sh 'terraform init'
-          sh 'terraform plan'
+          sh './terraformw terraform init'
+          sh './terraformw terraform plan'
             }      
         }
 
-        stage('Approval') {
+        stage('terraform Apply') {
             steps {
-            script {
-                def userInput = input(id: 'confirm', message: 'Apply Terraform?', parameters: [ [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Apply terraform', name: 'confirm'] ])
-            }
-            }
-        }
-
-        stage('TF Apply') {
-            steps {
-            sh 'terraform apply -input=false'
+                sh './terraformw apply --auto-approve'
             }
         }
     }
 }
+
+
+
