@@ -6,36 +6,39 @@ pipeline {
     
 
     stages {
-        stage('Checkout Code') {
-            steps {
-                checkout scm
-            }
-        }
         stage('Terraform Init') {
             steps {
                 script {
-                    sh 'terraform init'
+                    withCredentials([string(credentialsId: 'digitalocean-token', variable: 'DO_TOKEN')]) {
+                        sh "terraform init -backend-config='token=${DO_TOKEN}'"
+                    }
                 }
             }
         }
         stage('Terraform Validate') {
             steps {
                 script {
-                    sh 'terraform validate'
+                    withCredentials([string(credentialsId: 'digitalocean-token', variable: 'DO_TOKEN')]) {
+                        sh "terraform validate -var 'do_token=${DO_TOKEN}'"
+                    }
                 }
             }
         }
         stage('Terraform Plan') {
             steps {
                 script {
-                    sh 'terraform plan'
+                    withCredentials([string(credentialsId: 'digitalocean-token', variable: 'DO_TOKEN')]) {
+                        sh "terraform plan -var 'do_token=${DO_TOKEN}'"
+                    }
                 }
             }
         }
         stage('Terraform Apply') {
             steps {
                 script {
-                    sh 'terraform apply -auto-approve'
+                    withCredentials([string(credentialsId: 'digitalocean-token', variable: 'DO_TOKEN')]) {
+                        sh "terraform apply -auto-approve -var 'do_token=${DO_TOKEN}'"
+                    }
                 }
             }
         }
@@ -43,7 +46,9 @@ pipeline {
         stage('Terraform Destroy') {
             steps {
                 script {
-                    sh 'terraform destroy -auto-approve'
+                    withCredentials([string(credentialsId: 'digitalocean-token', variable: 'DO_TOKEN')]) {
+                        sh "terraform destroy -auto-approve -var 'do_token=${DO_TOKEN}'"
+                    }
                 }
             }
         }
