@@ -4,10 +4,10 @@ pipeline {
         skipDefaultCheckout(true)
     }
 
-    stages {     
-        stage('First checkout') {
+    stages {
+        stage('clean workspace') {
             steps {
-                checkout scm
+                cleanWs()
             }
         }
     
@@ -16,17 +16,6 @@ pipeline {
                 git branch: 'main', credentialsId: 'Maxibanex', url: 'https://github.com/Maxibanex/Practica_Jenkins.git'
             }
         }
-
-        stage('clean workspace') {
-            steps {
-                cleanWs()
-
-                script {
-                    sh 'chmod +x terraformw'
-                }
-            }
-        }
-
         stage('TF Init&Plan') {
         steps {
           sh './terraformw terraform init'
