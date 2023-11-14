@@ -40,7 +40,6 @@ resource "digitalocean_droplet" "www-1" {
 
       # Install Git
       "sudo apt-get -y install git"
-
     ]
   }
 }
