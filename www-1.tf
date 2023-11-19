@@ -19,8 +19,8 @@ resource "digitalocean_droplet" "www-1" {
       "export PATH=$PATH:/usr/bin",
 
       # Instalar Docker
-      apt-get update,
-      apt-get -y install docker.io,
+      "sudo apt-get update",
+      "sudo apt-get -y install docker.io",
 
       # Instalar Docker Compose
       curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
